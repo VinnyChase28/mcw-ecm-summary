@@ -6,51 +6,10 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { DataTable } from "./_components/table/data-table";
-import { ColumnDef } from "@tanstack/react-table";
+import { columns } from "./_components/table/columns";
 import Nav from "./_components/navigation/nav"; // This is your sidebar
 
-export type HVACItem = {
-  id: string;
-  manufacturer: string;
-  unit: string;
-  type: string;
-  quantity: number;
-  estimatedCost: number;
-  leadTime: string;
-  inStock: string;
-};
 
-export const columns: ColumnDef<HVACItem>[] = [
-  {
-    accessorKey: "manufacturer",
-    header: "Manufacturer",
-  },
-  {
-    accessorKey: "unit",
-    header: "Unit",
-  },
-  {
-    accessorKey: "type",
-    header: "Type",
-  },
-  {
-    accessorKey: "quantity",
-    header: "Quantity",
-  },
-  {
-    accessorKey: "estimatedCost",
-    header: "Estimated Cost",
-    cell: (info) => `$${(info.getValue() as number).toLocaleString()}`, // Type assertion added
-  },
-  {
-    accessorKey: "leadTime",
-    header: "Lead Time",
-  },
-  {
-    accessorKey: "inStock",
-    header: "In Stock",
-  },
-];
 // Example dummy data
 const datasets = [
   {
