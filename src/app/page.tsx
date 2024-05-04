@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   Accordion,
@@ -8,7 +9,6 @@ import {
 import { DataTable } from "./_components/table/data-table";
 import { columns } from "./_components/table/columns";
 import Nav from "./_components/navigation/nav"; // This is your sidebar
-
 
 // Example dummy data
 const datasets = [
