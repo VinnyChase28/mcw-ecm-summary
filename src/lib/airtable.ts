@@ -30,7 +30,6 @@ export class AirtableClient<T extends FieldSet> {
               }),
             );
           } else {
-            console.log(records);
             resolve(records);
           }
         },
