@@ -61,7 +61,7 @@ const datasets = [
   },
 ];
 
-const CustomAccordion = () => {
+const Products = () => {
   return (
     <Accordion type="single" collapsible>
       {datasets.map(({ id, title, data }) => (
@@ -76,4 +76,4 @@ const CustomAccordion = () => {
   );
 };
 
-export default CustomAccordion;
+export default Products;
