@@ -2,23 +2,13 @@
 import React from "react";
 import { api } from "~/trpc/server";
 import Link from "next/link";
+import { Projects } from "~/types";
 
-export type Project = {
-  id: string;
-  createdTime: string;
-  fields: {
-    "Project Ref": string;
-    "Project Number Ref": string;
-    Scope: string;
-    Manager: string;
-    Client: string;
-  };
-};
 
-export type Projects = Project[];
 
 const ProjectList: React.FC = async () => {
   const projects: Projects = await api.airtable.fetchRecords();
+  console.log(projects);
 
   return (
     <div className="grid grid-cols-1 items-stretch gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
