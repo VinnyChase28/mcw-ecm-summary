@@ -66,3 +66,7 @@ export class AirtableClient<T extends FieldSet> {
     });
   }
 }
+
+export const airtableClient = new AirtableClient(
+  process.env.AIRTABLE_TABLE_ID ?? "",
+);

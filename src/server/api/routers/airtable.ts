@@ -1,15 +1,12 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { TRPCError } from "@trpc/server";
-import { AirtableClient } from "~/lib/airtable";
+import { airtableClient } from "~/lib/airtable";
 import { z } from "zod";
 
 export const airtableRouter = createTRPCRouter({
   //get all records
   fetchRecords: publicProcedure.query(async () => {
     try {
-      const airtableClient = new AirtableClient(
-        process.env.AIRTABLE_TABLE_ID ?? "",
-      );
       const records = await airtableClient.fetchAllRecords();
 
       return records;
@@ -20,13 +17,10 @@ export const airtableRouter = createTRPCRouter({
       });
     }
   }),
-
+  //fetch by a specfied filter
   fetchRecordsByFilter: publicProcedure
     .input(z.string())
     .query(async ({ input }) => {
-      const airtableClient = new AirtableClient(
-        process.env.AIRTABLE_TABLE_ID ?? "",
-      );
       const records = await airtableClient.fetchRecordsByFilter(input);
       return records;
     }),
