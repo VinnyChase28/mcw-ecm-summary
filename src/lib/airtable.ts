@@ -10,13 +10,13 @@ export class AirtableClient<T extends FieldSet> {
   }
 
   //get all records
-  public async fetchAllRecords(): Promise<T[]> {
-    const records: T[] = [];
+  public async fetchAllRecords(): Promise<{ id: string; fields: T }[]> {
+    const records: { id: string; fields: T }[] = [];
     return new Promise((resolve, reject) => {
       this.table.select().eachPage(
         (pageRecords, fetchNextPage) => {
           pageRecords.forEach((record) => {
-            records.push(record.fields);
+            records.push({ id: record.id, fields: record.fields });
           });
           fetchNextPage();
         },
@@ -37,13 +37,15 @@ export class AirtableClient<T extends FieldSet> {
     });
   }
   //filter the entire table
-  public async fetchRecordsByFilter(filterFormula: string): Promise<T[]> {
+  public async fetchRecordsByFilter(
+    filterFormula: string,
+  ): Promise<{ id: string; fields: T }[]> {
     return new Promise((resolve, reject) => {
-      const records: T[] = [];
+      const records: { id: string; fields: T }[] = [];
       this.table.select({ filterByFormula: filterFormula }).eachPage(
         (pageRecords, fetchNextPage) => {
           pageRecords.forEach((record) => {
-            records.push(record.fields);
+            records.push({ id: record.id, fields: record.fields });
           });
           fetchNextPage();
         },
