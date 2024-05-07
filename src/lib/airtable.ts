@@ -40,30 +40,43 @@ export class AirtableClient<T extends FieldSet> {
       );
     });
   }
-  //filter the entire table
-  public async fetchRecordsByFilter(
-    filterFormula: string,
+
+  //fetch by Project Id's (parent to Project Ref)
+  public async fetchRecordsByProjectIds(
+    projectIds: string[],
   ): Promise<{ id: string; fields: T }[]> {
+    const filterFormula = projectIds
+      .map((id) => `FIND('${id}', LEFT({Project Ref}, 4)) > 0`)
+      .join(", ");
+
     return new Promise((resolve, reject) => {
-      const records: { id: string; fields: T }[] = [];
-      this.table.select({ filterByFormula: filterFormula }).eachPage(
+      const recordsMap = new Map<string, { id: string; fields: T }>();
+      this.table.select({ filterByFormula: `OR(${filterFormula})` }).eachPage(
         (pageRecords, fetchNextPage) => {
           pageRecords.forEach((record) => {
-            records.push({ id: record.id, fields: record.fields });
+            const projectRefKey = record?.fields["Project Ref"]
+              ?.toString()
+              .substring(0, 4);
+            if (!recordsMap.has(projectRefKey as string)) {
+              recordsMap.set(projectRefKey as string, {
+                id: record.id,
+                fields: record.fields,
+              });
+            }
           });
           fetchNextPage();
         },
         (err) => {
           if (err) {
-            console.error("Error fetching records by filter:", err);
+            console.error("Error fetching records by project IDs:", err);
             reject(
               new TRPCError({
                 code: "INTERNAL_SERVER_ERROR",
-                message: `Error fetching records by filter: ${err}`,
+                message: `Error fetching records by project IDs: ${err}`,
               }),
             );
           } else {
-            resolve(records);
+            resolve(Array.from(recordsMap.values()));
           }
         },
       );

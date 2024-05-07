@@ -4,9 +4,9 @@ import { api } from "~/trpc/server";
 import Link from "next/link";
 
 const ProjectList: React.FC = async () => {
-  const filterFormula = `OR(FIND('4596', {Project Ref}) > 0, FIND('5366', {Project Ref}) > 0, FIND('3524', {Project Ref}) > 0, FIND('5233', {Project Ref}) > 0, FIND('6229', {Project Ref}) > 0)`;
-  const results = await api.airtable.fetchRecordsByFilter(filterFormula);
-
+  const projectIds = ["4596", "5366", "3524", "5233", "6229"];
+  const results = await api.airtable.fetchRecordsByIds(projectIds);
+  console.log(results);
   return (
     <div>
       <div className="grid grid-cols-1 items-stretch gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">

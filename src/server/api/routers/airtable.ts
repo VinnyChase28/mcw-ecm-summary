@@ -8,7 +8,6 @@ export const airtableRouter = createTRPCRouter({
   fetchRecords: publicProcedure.query(async () => {
     try {
       const records = await airtableClient.fetchAllRecords();
-
       return records;
     } catch (error) {
       throw new TRPCError({
@@ -17,11 +16,19 @@ export const airtableRouter = createTRPCRouter({
       });
     }
   }),
-  //fetch by a specfied filter
-  fetchRecordsByFilter: publicProcedure
-    .input(z.string())
+
+  // fetch records by a list of record IDs
+  fetchRecordsByIds: publicProcedure
+    .input(z.array(z.string()))
     .query(async ({ input }) => {
-      const records = await airtableClient.fetchRecordsByFilter(input);
-      return records;
+      try {
+        const records = await airtableClient.fetchRecordsByProjectIds(input);
+        return records;
+      } catch (error) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: `An error occurred while fetching records by IDs from Airtable: ${(error as Error).message}`,
+        });
+      }
     }),
 });
