@@ -31,7 +31,7 @@ export const columns: ColumnDef<HVACItem>[] = [
   {
     accessorKey: "estimatedCost",
     header: "Estimated Cost",
-    cell: (info) => `$${(info.getValue() as number).toLocaleString()}`, // Type assertion added
+
   },
   {
     accessorKey: "leadTime",
