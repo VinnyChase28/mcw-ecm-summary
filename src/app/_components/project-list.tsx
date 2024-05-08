@@ -9,7 +9,7 @@ const ProjectList: React.FC = async () => {
   console.log(results);
   return (
     <div>
-      <div className="grid grid-cols-1 items-stretch gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid grid-cols-1 items-stretch gap-4 p-4 pt-12 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {results.map((project) => (
           <Link
             key={project.id} // Use the unique record ID as the key
