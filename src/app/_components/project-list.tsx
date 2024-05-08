@@ -33,15 +33,6 @@ const ProjectList: React.FC = async () => {
                   Client: {project.fields.Client?.toString()}
                 </p>
               </div>
-              <div className="bg-gray-200 p-4">
-                <p className="text-xs">
-                  Created on:{" "}
-                  {typeof project.fields.createdTime === "string" ||
-                  typeof project.fields.createdTime === "number"
-                    ? new Date(project.fields.createdTime).toLocaleDateString()
-                    : "N/A"}
-                </p>
-              </div>
             </div>
           </Link>
         ))}
