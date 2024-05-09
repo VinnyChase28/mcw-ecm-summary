@@ -46,7 +46,7 @@ export class AirtableClient<T extends FieldSet> {
     projectIds: string[],
   ): Promise<{ id: string; fields: T }[]> {
     const filterFormula = projectIds
-      .map((id) => `FIND('${id}', LEFT({Project Ref}, 4)) > 0`)
+      .map((id) => `FIND('${id}', LEFT({Project Number}, 4)) > 0`)
       .join(", ");
 
     return new Promise((resolve, reject) => {
@@ -84,6 +84,4 @@ export class AirtableClient<T extends FieldSet> {
   }
 }
 
-export const airtableClient = new AirtableClient(
-  process.env.AIRTABLE_TABLE_ID ?? "",
-);
+export const airtableClient = new AirtableClient(process.env.AIRTABLE_VANCOUVER ?? "");

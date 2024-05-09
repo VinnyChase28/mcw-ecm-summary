@@ -13,13 +13,13 @@ const ProjectList: React.FC = async () => {
         {results.map((project) => (
           <Link
             key={project.id} // Use the unique record ID as the key
-            href={`/project/${project.fields["Project Number Ref"]?.toString()}`}
+            href={`/project/${project.fields["Project Number"]?.toString()}`}
             className="block text-gray-800 no-underline"
           >
             <div className="flex flex-col overflow-hidden rounded-lg border shadow-lg">
               <div className="flex-grow bg-gray-100 p-4">
                 <h2 className="line-clamp-1 text-lg font-semibold">
-                  {project.fields["Project Ref"]?.toString()}
+                  {project.fields["Project Name"]?.toString()}
                 </h2>
                 <p className="line-clamp-2 text-sm">
                   {project.fields.Scope?.toString()}
@@ -27,7 +27,7 @@ const ProjectList: React.FC = async () => {
               </div>
               <div className="flex-grow p-4">
                 <p className="line-clamp-3">
-                  Manager: {project.fields.Manager?.toString()}
+                  Manager: {project.fields["Project Accountant"]?.toString()}
                 </p>
                 <p className="line-clamp-3">
                   Client: {project.fields.Client?.toString()}
