@@ -92,7 +92,12 @@ export function getClientForRegion(region: string): AirtableClient<FieldSet> {
     Edmonton: process.env.AIRTABLE_EDMONTON,
     Calgary: process.env.AIRTABLE_CALGARY,
   };
-  return new AirtableClient(tableMap[region as keyof typeof tableMap] ?? "");
+
+  const tableName = tableMap[region];
+  if (tableName === undefined) {
+    throw new Error(`No table name found for region: ${region}`);
+  }
+  return new AirtableClient(tableName);
 }
 
 export const airtableClient = new AirtableClient(
