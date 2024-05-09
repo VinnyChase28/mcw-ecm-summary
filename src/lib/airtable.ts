@@ -57,12 +57,14 @@ export class AirtableClient<T extends FieldSet> {
             const projectRefKey = record?.fields["Project Ref"]
               ?.toString()
               .substring(0, 4);
-              if (!recordsMap.has(projectRefKey!)) {
-                recordsMap.set(projectRefKey!, {
+            if (projectRefKey !== undefined) {
+              if (!recordsMap.has(projectRefKey)) {
+                recordsMap.set(projectRefKey, {
                   id: record.id,
                   fields: record.fields,
                 });
               }
+            }
           });
           fetchNextPage();
         },
