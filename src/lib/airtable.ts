@@ -1,4 +1,4 @@
-import { FieldSet, Table } from "airtable";
+import type { FieldSet, Table } from "airtable";
 import Airtable from "airtable";
 import { TRPCError } from "@trpc/server";
 
@@ -93,4 +93,6 @@ export function getClientForRegion(region: string): AirtableClient<FieldSet> {
   return new AirtableClient(tableMap[region as keyof typeof tableMap] ?? "");
 }
 
-export const airtableClient = new AirtableClient(process.env.AIRTABLE_VANCOUVER ?? "");
+export const airtableClient = new AirtableClient(
+  process.env.AIRTABLE_VANCOUVER ?? "",
+);
