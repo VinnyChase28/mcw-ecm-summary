@@ -84,4 +84,13 @@ export class AirtableClient<T extends FieldSet> {
   }
 }
 
+export function getClientForRegion(region: string): AirtableClient<FieldSet> {
+  const tableMap: { [key: string]: string | undefined } = {
+    Vancouver: process.env.AIRTABLE_VANCOUVER,
+    Edmonton: process.env.AIRTABLE_EDMONTON,
+    Calgary: process.env.AIRTABLE_CALGARY,
+  };
+  return new AirtableClient(tableMap[region as keyof typeof tableMap] ?? "");
+}
+
 export const airtableClient = new AirtableClient(process.env.AIRTABLE_VANCOUVER ?? "");
