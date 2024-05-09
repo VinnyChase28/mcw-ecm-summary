@@ -14,9 +14,7 @@ interface Project {
   };
 }
 
-interface ProjectsByRegion {
-  [key: string]: Project[];
-}
+type ProjectsByRegion = Record<string, Project[]>;
 
 const ProjectList = async () => {
   const regions = ["Vancouver", "Edmonton", "Calgary"];
