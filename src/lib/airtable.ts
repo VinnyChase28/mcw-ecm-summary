@@ -1,8 +1,7 @@
-import { FieldSet, Table } from "airtable";
-import Airtable from "airtable";
+import Airtable, { FieldSet, Table } from "airtable";
 import { TRPCError } from "@trpc/server";
 
-export const base = new Airtable({ apiKey: process.env.AIRTABLE_PAT }).base(
+const base = new Airtable({ apiKey: process.env.AIRTABLE_PAT }).base(
   process.env.AIRTABLE_BASE_ID ?? "",
 );
 
@@ -13,11 +12,14 @@ export class AirtableClient<T extends FieldSet> {
     this.table = base(tableName);
   }
 
-  //get all records
-  public async fetchAllRecords(): Promise<{ id: string; fields: T }[]> {
+  // Updated fetchAllRecords to accept optional parameters
+  public async fetchAllRecords(
+    filter?: string,
+  ): Promise<{ id: string; fields: T }[]> {
     const records: { id: string; fields: T }[] = [];
     return new Promise((resolve, reject) => {
-      this.table.select().eachPage(
+      const selectOptions = filter ? { filterByFormula: filter } : {};
+      this.table.select(selectOptions).eachPage(
         (pageRecords, fetchNextPage) => {
           pageRecords.forEach((record) => {
             records.push({ id: record.id, fields: record.fields });
@@ -41,12 +43,11 @@ export class AirtableClient<T extends FieldSet> {
     });
   }
 
-  //fetch by Project Id's (parent to Project Ref)
   public async fetchRecordsByProjectIds(
     projectIds: string[],
   ): Promise<{ id: string; fields: T }[]> {
     const filterFormula = projectIds
-      .map((id) => `FIND('${id}', LEFT({Project Ref}, 4)) > 0`)
+      .map((id) => `FIND('${id}', LEFT({Project Number}, 4)) > 0`)
       .join(", ");
 
     return new Promise((resolve, reject) => {
@@ -57,11 +58,13 @@ export class AirtableClient<T extends FieldSet> {
             const projectRefKey = record?.fields["Project Ref"]
               ?.toString()
               .substring(0, 4);
-            if (!recordsMap.has(projectRefKey!)) {
-              recordsMap.set(projectRefKey!, {
-                id: record.id,
-                fields: record.fields,
-              });
+            if (projectRefKey !== undefined) {
+              if (!recordsMap.has(projectRefKey)) {
+                recordsMap.set(projectRefKey, {
+                  id: record.id,
+                  fields: record.fields,
+                });
+              }
             }
           });
           fetchNextPage();
@@ -84,6 +87,18 @@ export class AirtableClient<T extends FieldSet> {
   }
 }
 
-export const airtableClient = new AirtableClient(
-  process.env.AIRTABLE_TABLE_ID ?? "",
-);
+export function getClientForRegion(region: string): AirtableClient<FieldSet> {
+  const tableMap: Record<string, string | undefined> = {
+    Vancouver: process.env.AIRTABLE_VANCOUVER,
+    Edmonton: process.env.AIRTABLE_EDMONTON,
+    Calgary: process.env.AIRTABLE_CALGARY,
+  };
+
+  const tableName = tableMap[region];
+  if (!tableName) {
+    throw new Error(
+      `No table name found for region: ${region}. Ensure the environment variable for this region is set.`,
+    );
+  }
+  return new AirtableClient(tableName);
+}
