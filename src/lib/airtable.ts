@@ -1,8 +1,7 @@
-import type { FieldSet, Table } from "airtable";
-import Airtable from "airtable";
+import Airtable, { FieldSet, Table } from "airtable";
 import { TRPCError } from "@trpc/server";
 
-export const base = new Airtable({ apiKey: process.env.AIRTABLE_PAT }).base(
+const base = new Airtable({ apiKey: process.env.AIRTABLE_PAT }).base(
   process.env.AIRTABLE_BASE_ID ?? "",
 );
 
@@ -13,7 +12,6 @@ export class AirtableClient<T extends FieldSet> {
     this.table = base(tableName);
   }
 
-  //get all records
   public async fetchAllRecords(): Promise<{ id: string; fields: T }[]> {
     const records: { id: string; fields: T }[] = [];
     return new Promise((resolve, reject) => {
@@ -41,7 +39,6 @@ export class AirtableClient<T extends FieldSet> {
     });
   }
 
-  //fetch by Project Id's (parent to Project Ref)
   public async fetchRecordsByProjectIds(
     projectIds: string[],
   ): Promise<{ id: string; fields: T }[]> {
@@ -88,14 +85,16 @@ export class AirtableClient<T extends FieldSet> {
 
 export function getClientForRegion(region: string): AirtableClient<FieldSet> {
   const tableMap: Record<string, string | undefined> = {
-    Vancouver: process.env.AIRTABLE_VANCOUVER ?? "",
-    Edmonton: process.env.AIRTABLE_EDMONTON ?? "",
-    Calgary: process.env.AIRTABLE_CALGARY ?? "",
+    Vancouver: process.env.AIRTABLE_VANCOUVER,
+    Edmonton: process.env.AIRTABLE_EDMONTON,
+    Calgary: process.env.AIRTABLE_CALGARY,
   };
 
   const tableName = tableMap[region];
-  if (tableName === undefined) {
-    throw new Error(`No table name found for region: ${region}`);
+  if (!tableName) {
+    throw new Error(
+      `No table name found for region: ${region}. Ensure the environment variable for this region is set.`,
+    );
   }
   return new AirtableClient(tableName);
 }
