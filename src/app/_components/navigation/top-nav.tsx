@@ -13,6 +13,11 @@ export default function Topbar() {
           className="h-full object-contain"
         />
       </div>
+      <div className="flex h-full flex-grow items-center justify-center">
+        <span className="text-xl font-bold">
+          Engineering Excellence, Simplified.
+        </span>
+      </div>
       <div className="flex h-full items-center">
         <Link className="ml-2 text-2xl font-bold" href="#">
           <Image

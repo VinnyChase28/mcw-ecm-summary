@@ -1,14 +1,17 @@
-export type Project = {
+export interface Project {
   id: string;
-  createdTime: string;
   fields: {
     "Project Ref": string;
     "Project Number Ref": string;
     Scope: string;
-    Manager: string;
     Client: string;
+    "Project Manager"?: string;
+    "Project Accountant"?: string;
+    "Project Accountant Linked"?: string;
+    Discipline?: string;
+    // Add any other fields that might be present
   };
-};
+}
 
 export type Projects = Project[];
 

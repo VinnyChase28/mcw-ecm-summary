@@ -47,7 +47,7 @@ export class AirtableClient<T extends FieldSet> {
     projectIds: string[],
   ): Promise<{ id: string; fields: T }[]> {
     const filterFormula = projectIds
-      .map((id) => `FIND('${id}', LEFT({Project Number}, 4)) > 0`)
+      .map((id) => `FIND('${id}', {Project Number Ref}) > 0`)
       .join(", ");
 
     return new Promise((resolve, reject) => {
@@ -55,7 +55,7 @@ export class AirtableClient<T extends FieldSet> {
       this.table.select({ filterByFormula: `OR(${filterFormula})` }).eachPage(
         (pageRecords, fetchNextPage) => {
           pageRecords.forEach((record) => {
-            const projectRefKey = record?.fields["Project Ref"]
+            const projectRefKey = record?.fields["Project Number Ref"]
               ?.toString()
               .substring(0, 4);
             if (projectRefKey !== undefined) {

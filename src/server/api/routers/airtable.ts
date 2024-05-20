@@ -45,4 +45,46 @@ export const airtableRouter = createTRPCRouter({
         });
       }
     }),
+
+  // Fetch a single project by ID and region
+  fetchProjectById: publicProcedure
+    .input(
+      z.object({
+        region: z.enum(["Vancouver", "Edmonton", "Calgary"]),
+        projectId: z.string(),
+      }),
+    )
+    .query(async ({ input }) => {
+      try {
+        const client = getClientForRegion("Vancouver");
+        const decodedProjectId = decodeURIComponent(input.projectId);
+        const records = await client.fetchRecordsByProjectIds([
+          decodedProjectId,
+        ]);
+
+        console.log("Fetched records:", records);
+
+        const project = records.find(
+          (p) => p.fields["Project Number Ref"] === decodedProjectId,
+        );
+
+        console.log("Project found:", project);
+
+        if (!project) {
+          throw new TRPCError({
+            code: "NOT_FOUND",
+            message: `Project with ID ${decodedProjectId} not found in region ${input.region}`,
+          });
+        }
+        return {
+          id: project.id,
+          fields: project.fields,
+        };
+      } catch (error) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: `An error occurred while fetching the project: ${(error as Error).message}`,
+        });
+      }
+    }),
 });
