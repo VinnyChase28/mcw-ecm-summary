@@ -18,7 +18,7 @@ interface ProjectOverviewProps {
 
 export default function ProjectOverview({ project }: ProjectOverviewProps) {
   return (
-    <Card className="w-full max-w-2xl">
+    <Card className="w-full">
       <CardHeader>
         <CardTitle>Project Overview</CardTitle>
       </CardHeader>
