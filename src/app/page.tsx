@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div>
       <Topbar />
-      <div className="grid min-h-screen grid-cols-1 md:grid-cols-4">
+      <div className="grid min-h-screen grid-cols-1 pt-20 md:grid-cols-4">
         {/* Sidebar, hidden on mobile and always visible on desktop */}
         <Sidebar className="hidden pt-12 md:col-span-1 md:block" />
 
