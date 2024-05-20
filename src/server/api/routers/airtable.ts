@@ -62,13 +62,9 @@ export const airtableRouter = createTRPCRouter({
           decodedProjectId,
         ]);
 
-        console.log("Fetched records:", records);
-
         const project = records.find(
           (p) => p.fields["Project Number Ref"] === decodedProjectId,
         );
-
-        console.log("Project found:", project);
 
         if (!project) {
           throw new TRPCError({
