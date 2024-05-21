@@ -3,6 +3,8 @@ import { api } from "~/trpc/server";
 import { Project } from "~/types";
 import ProjectOverview from "@/components/project-overview";
 import Products from "@/components/products";
+import Chat from "@/components/chat-ai";
+import { Separator } from "@/components/ui/separator";
 
 const ProjectPage = async ({ params }: { params: { projectId: string } }) => {
   const { projectId } = params;
@@ -34,7 +36,14 @@ const ProjectPage = async ({ params }: { params: { projectId: string } }) => {
     <div>
       <div className="p-4">
         <ProjectOverview project={project} />
+        <div className="py-5">
+          <Separator />
+        </div>
         <Products />
+        <div className="py-5">
+          <Separator />
+        </div>
+        <Chat />
       </div>
     </div>
   );
