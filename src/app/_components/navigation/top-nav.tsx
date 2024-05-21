@@ -15,8 +15,8 @@ export default function Topbar() {
           />
         </Link>
       </div>
-      <div className="flex h-full flex-grow items-center justify-center">
-        <span className="text-xl font-bold">
+      <div className="hidden h-full flex-grow items-center justify-center sm:flex">
+        <span className="hidden text-xl font-bold sm:block">
           Engineering Excellence, Simplified.
         </span>
       </div>
