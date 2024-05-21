@@ -41,18 +41,6 @@ export default function ProjectOverview({ project }: ProjectOverviewProps) {
             {project.fields["Project Manager"] ?? "N/A"}
           </div>
           <div className="text-sm font-medium text-gray-500 dark:text-gray-400">
-            Project Accountant:
-          </div>
-          <div className="text-sm">
-            {project.fields["Project Accountant"] ?? "N/A"}
-          </div>
-          <div className="text-sm font-medium text-gray-500 dark:text-gray-400">
-            Project Accountant Linked:
-          </div>
-          <div className="text-sm">
-            {project.fields["Project Accountant Linked"] ?? "N/A"}
-          </div>
-          <div className="text-sm font-medium text-gray-500 dark:text-gray-400">
             Discipline:
           </div>
           <div className="text-sm">{project.fields.Discipline ?? "N/A"}</div>
