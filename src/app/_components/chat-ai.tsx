@@ -6,6 +6,7 @@ import { useChat } from "ai/react";
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 function Chat() {
   const { messages, input, handleInputChange, handleSubmit } = useChat({
@@ -21,7 +22,7 @@ function Chat() {
 
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col space-y-4 rounded-lg bg-white p-6 shadow-lg dark:bg-gray-950">
-      <div className="flex-1 space-y-4 overflow-y-auto p-4">
+      <ScrollArea className="max-h-[500px] w-full flex-1 space-y-4 overflow-y-auto rounded-md border p-4">
         {messages.map((message) => (
           <div
             key={message.id}
@@ -43,7 +44,7 @@ function Chat() {
             )}
           </div>
         ))}
-      </div>
+      </ScrollArea>
       <form onSubmit={handleFormSubmit} className="flex space-x-2">
         <input
           name="prompt"
