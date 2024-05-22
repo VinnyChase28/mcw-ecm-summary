@@ -1,8 +1,8 @@
 import React from "react";
 import { api } from "~/trpc/server";
 import { Project } from "~/types";
-import ProjectOverview from "@/components/project-overview";
-import Products from "@/components/products";
+import ProjectOverview from "../components/project-overview";
+import Products from "../components/project-products";
 import Chat from "@/components/chat-ai";
 import { Separator } from "@/components/ui/separator";
 

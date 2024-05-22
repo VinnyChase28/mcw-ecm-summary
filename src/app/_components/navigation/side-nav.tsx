@@ -7,7 +7,9 @@ import {
   FanIcon,
   GlassWater,
   Flame,
+  Home,
 } from "lucide-react";
+import Link from "next/link";
 
 export function Sidebar({ className }: { className?: string }) {
   return (
@@ -18,26 +20,36 @@ export function Sidebar({ className }: { className?: string }) {
             Products
           </h2>
           <div className="space-y-1">
-            <Button variant="ghost" className="w-full justify-start">
-              <Flame className="mr-2 h-4 w-4" />
-              Building Heating
-            </Button>
-            <Button variant="ghost" className="w-full justify-start">
-              <Snowflake className="mr-2 h-4 w-4" />
-              Building Cooling
-            </Button>
-            <Button variant="ghost" className="w-full justify-start">
-              <FanIcon className="mr-2 h-4 w-4" />
-              Building Ventilation
-            </Button>
-            <Button variant="ghost" className="w-full justify-start">
-              <Terminal className="mr-2 h-4 w-4" />
-              Terminal Units
-            </Button>
-            <Button variant="ghost" className="w-full justify-start">
-              <GlassWater className="mr-2 h-4 w-4" />
-              Pumps
-            </Button>
+            <Link href="/product/building-heating" passHref>
+              <Button variant="ghost" className="w-full justify-start">
+                <Flame className="mr-2 h-4 w-4" />
+                Building Heating
+              </Button>
+            </Link>
+            <Link href="/product/building-cooling" passHref>
+              <Button variant="ghost" className="w-full justify-start">
+                <Snowflake className="mr-2 h-4 w-4" />
+                Building Cooling
+              </Button>
+            </Link>
+            <Link href="/product/building-ventilation" passHref>
+              <Button variant="ghost" className="w-full justify-start">
+                <FanIcon className="mr-2 h-4 w-4" />
+                Building Ventilation
+              </Button>
+            </Link>
+            <Link href="/product/terminal-units" passHref>
+              <Button variant="ghost" className="w-full justify-start">
+                <Terminal className="mr-2 h-4 w-4" />
+                Terminal Units
+              </Button>
+            </Link>
+            <Link href="/product/pumps" passHref>
+              <Button variant="ghost" className="w-full justify-start">
+                <GlassWater className="mr-2 h-4 w-4" />
+                Pumps
+              </Button>
+            </Link>
           </div>
         </div>
         <div className="px-3 py-2">
